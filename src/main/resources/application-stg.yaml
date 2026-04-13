@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: ${JDBC_DATABASE_URL:jdbc:postgresql://localhost:5432/base_stg}
+    username: ${JDBC_DATABASE_USERNAME:stg_user}
+    password: ${JDBC_DATABASE_PASSWORD:stg_password}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+
+logging:
+  level:
+    com.example.base: INFO
