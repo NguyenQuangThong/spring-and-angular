@@ -1,9 +1,19 @@
 plugins {
-    id 'java-library'
+    id 'org.springframework.boot'
+    id 'java'
+}
+
+bootJar {
+    mainClass = 'org.example.application'
 }
 
 description = 'application'
 
 dependencies {
-    // shared config (repositories/toolchain/test) is inherited from the backend root build.gradle
+    implementation project(':backend:api')
+    implementation project(':backend:infrastructure')
+    implementation project(':backend:domain')
+    implementation project(':backend:common')
+
+    implementation 'org.springframework.boot:spring-boot-starter'
 }

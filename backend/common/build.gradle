@@ -4,6 +4,4 @@ plugins {
 
 description = 'common'
 
-dependencies {
-    // shared config (repositories/toolchain/test) is inherited from the backend root build.gradle
-}
+dependencies {}

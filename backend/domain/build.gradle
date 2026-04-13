@@ -5,5 +5,5 @@ plugins {
 description = 'domain'
 
 dependencies {
-    // shared config (repositories/toolchain/test) is inherited from the backend root build.gradle
+    implementation project(':backend:common')
 }
