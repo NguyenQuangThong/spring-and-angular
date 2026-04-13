@@ -1,9 +1,0 @@
-spring:
-  application:
-    name: base-project
-  profiles:
-    active: dev
-  jackson:
-    default-property-inclusion: non_null
-    serialization:
-      write_dates_as_timestamps: false

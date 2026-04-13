@@ -1,1 +1,8 @@
-rootProject.name = 'base'
+rootProject.name = 'spring-and-angular-practice'
+include 'backend'
+
+include 'backend:api'
+include 'backend:application'
+include 'backend:common'
+include 'backend:domain'
+include 'backend:infrastructure'

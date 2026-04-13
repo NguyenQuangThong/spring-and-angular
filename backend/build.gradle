@@ -1,0 +1,33 @@
+plugins {
+	id 'base'
+
+	// Centralize plugin versions for submodules.
+	id 'org.springframework.boot' version '3.4.1' apply false
+	id 'io.spring.dependency-management' version '1.1.7' apply false
+	id 'java-library' apply false
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+description = 'Backend (multi-module)'
+
+allprojects {
+	repositories {
+		mavenCentral()
+	}
+}
+
+subprojects {
+	apply plugin: 'java-library'
+	apply plugin: 'io.spring.dependency-management'
+
+	java {
+		toolchain {
+			languageVersion = JavaLanguageVersion.of(17)
+		}
+	}
+
+	tasks.withType(Test).configureEach {
+		useJUnitPlatform()
+	}
+}

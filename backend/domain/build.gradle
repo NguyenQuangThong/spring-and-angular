@@ -1,0 +1,9 @@
+plugins {
+    id 'java-library'
+}
+
+description = 'domain'
+
+dependencies {
+    // shared config (repositories/toolchain/test) is inherited from the backend root build.gradle
+}
