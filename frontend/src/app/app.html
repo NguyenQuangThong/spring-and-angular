@@ -1,0 +1,22 @@
+<header class="topbar">
+  <a class="brand" routerLink="/">{{ title }}</a>
+
+  <nav class="nav" aria-label="Main navigation">
+    <!-- Routing:
+      routerLink doi URL ma khong reload lai page.
+      routerLinkActive them class khi link dang khop route hien tai.
+    -->
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      Bai hoc
+    </a>
+    <a routerLink="/about" routerLinkActive="active">Tom tat</a>
+  </nav>
+</header>
+
+<main class="shell">
+  <!-- Routing:
+    Component cua route hien tai se xuat hien tai day.
+    Vi du: "/" render LearningPageComponent, "/about" render AboutPageComponent.
+  -->
+  <router-outlet />
+</main>

@@ -1,0 +1,76 @@
+<section class="intro">
+  <div>
+    <p class="eyebrow">Angular can ban</p>
+    <h1>Vi du nho, de doc, co comment trong code</h1>
+    <p>
+      Trang nay gom lifecycle, routing, service goi HTTP, RxJS stream va state management bang
+      BehaviorSubject.
+    </p>
+  </div>
+
+  <button type="button" (click)="reload()">Reload HTTP</button>
+</section>
+
+<section class="grid">
+  <app-lifecycle-child [valueFromParent]="lifecycleCounter()" />
+
+  <section class="panel">
+    <h2>Signals trong component</h2>
+    <p>Counter: {{ lifecycleCounter() }}</p>
+    <p>Counter x 2: {{ doubledCounter() }}</p>
+    <button type="button" (click)="increaseLifecycleCounter()">Tang counter</button>
+  </section>
+
+  <section class="panel state-panel" *ngIf="state$ | async as state">
+    <h2>5. State management</h2>
+    <p>Lifecycle da chay: {{ state.lifecycleRuns }} lan</p>
+    <p>So bai yeu thich: {{ state.favoritePostIds.length }}</p>
+
+    <label class="checkbox">
+      <input
+        type="checkbox"
+        [checked]="state.showOnlyFavorites"
+        (change)="toggleFavoriteFilter()"
+      />
+      Chi hien bai yeu thich
+    </label>
+
+    <button type="button" class="secondary" (click)="resetFavorites()">Reset state</button>
+  </section>
+</section>
+
+<section class="panel">
+  <div class="section-heading">
+    <div>
+      <h2>3. Service + HTTP call va 4. RxJS</h2>
+      <p>Data lay tu JSONPlaceholder API, sau do loc bang RxJS.</p>
+    </div>
+
+    <label>
+      Tim kiem
+      <input
+        type="search"
+        placeholder="Nhap title/body..."
+        (input)="onSearch(searchInput.value)"
+        #searchInput
+      />
+    </label>
+  </div>
+
+  <p class="loading" *ngIf="loading$ | async">Dang goi HTTP...</p>
+
+  <div class="posts" *ngIf="posts$ | async as posts">
+    <article class="post" *ngFor="let post of posts; trackBy: trackPost">
+      <div class="post-header">
+        <span>#{{ post.id }}</span>
+        <button type="button" class="secondary" (click)="toggleFavorite(post.id)">
+          Yeu thich
+        </button>
+      </div>
+      <h3>{{ post.title }}</h3>
+      <p>{{ post.body }}</p>
+    </article>
+
+    <p class="empty" *ngIf="posts.length === 0">Khong co bai nao khop dieu kien.</p>
+  </div>
+</section>
