@@ -69,27 +69,38 @@ export class LearningPageComponent implements OnInit, AfterViewInit, OnDestroy {
   );
 
   // RxJS quan trong nhat:
-  // combineLatest ket hop nhieu stream: text search, nut reload, state filter yeu thich.
-  // switchMap huy HTTP cu neu co search/reload moi, tranh hien data da cu.
-  // catchError bien loi HTTP thanh data rong de UI khong bi crash.
-  // shareReplay(1) cache ket qua moi nhat cho nhieu async pipe cung dung.
-  readonly posts$ = combineLatest([
-    this.searchText$,
-    this.reloadSubject.pipe(startWith(undefined)),
-    this.store.favoritePostIds$,
-    this.store.showOnlyFavorites$,
-  ]).pipe(
+  // rawPosts$ chi dai dien cho data lay tu server.
+  // HTTP chi nen chay khi load lan dau hoac bam Reload, khong nen chay khi user chi bam Yeu thich.
+  private readonly rawPosts$ = this.reloadSubject.pipe(
+    startWith(undefined),
     tap(() => this.loading$.next(true)),
-    switchMap(([searchText, _reload, favoritePostIds, showOnlyFavorites]) =>
+    switchMap(() =>
       this.postsService.getPosts().pipe(
         delay(350),
-        map((posts) => this.filterPosts(posts, searchText, favoritePostIds, showOnlyFavorites)),
         catchError((error) => {
           console.error('HTTP error:', error);
           return of([]);
         }),
         finalize(() => this.loading$.next(false)),
       ),
+    ),
+    shareReplay({ bufferSize: 1, refCount: true }),
+  );
+
+  // posts$ la data da loc de hien thi.
+  // combineLatest ket hop data server + UI state local.
+  // Khi bam Yeu thich, chi favoritePostIds$ emit lai, Angular loc lai list hien co,
+  // khong tao HTTP request moi.
+  // combineLatest nay se trigger khi 1 trong 4 observable o duoi co data change, shareReplay se cache lai so caches = bufferSize
+  // nham khi co nhieu components subscribe vao posts$ nay thi co the dung cache thay vi xu ly lai tu dau
+  readonly posts$ = combineLatest([
+    this.rawPosts$,
+    this.searchText$,
+    this.store.favoritePostIds$,
+    this.store.showOnlyFavorites$,
+  ]).pipe(
+    map(([posts, searchText, favoritePostIds, showOnlyFavorites]) =>
+      this.filterPosts(posts, searchText, favoritePostIds, showOnlyFavorites),
     ),
     shareReplay({ bufferSize: 1, refCount: true }),
   );
@@ -162,7 +173,7 @@ export class LearningPageComponent implements OnInit, AfterViewInit, OnDestroy {
       .filter((post) => {
         const matchesSearch =
           post.title.toLowerCase().includes(searchText) ||
-          post.body.toLowerCase().includes(searchText);
+          post.content.toLowerCase().includes(searchText);
 
         const matchesFavoriteFilter = !showOnlyFavorites || favoritePostIds.includes(post.id);
 

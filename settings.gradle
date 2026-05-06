@@ -3,6 +3,7 @@ include 'backend'
 
 include 'backend:api'
 include 'backend:application'
+include 'backend:server'
 include 'backend:common'
 include 'backend:domain'
 include 'backend:infrastructure'

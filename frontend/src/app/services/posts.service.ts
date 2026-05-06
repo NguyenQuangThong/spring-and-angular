@@ -8,7 +8,7 @@ import { Post } from '../models/post.model';
   providedIn: 'root',
 })
 export class PostsService {
-  private readonly apiUrl = 'https://jsonplaceholder.typicode.com/posts';
+  private readonly apiUrl = 'http://localhost:8080/api/posts';
 
   constructor(private readonly http: HttpClient) {}
 

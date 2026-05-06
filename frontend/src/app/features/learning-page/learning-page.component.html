@@ -50,7 +50,7 @@
       Tim kiem
       <input
         type="search"
-        placeholder="Nhap title/body..."
+        placeholder="Nhap title/content..."
         (input)="onSearch(searchInput.value)"
         #searchInput
       />
@@ -68,7 +68,7 @@
         </button>
       </div>
       <h3>{{ post.title }}</h3>
-      <p>{{ post.body }}</p>
+      <p>{{ post.content }}</p>
     </article>
 
     <p class="empty" *ngIf="posts.length === 0">Khong co bai nao khop dieu kien.</p>
